@@ -3,9 +3,76 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Online Shopping</title>
+    <title>Toy Mini Items</title>
     <link rel="stylesheet" href="style.css" />
     <script src="source/main.js" defer></script>
   </head>
-  <body></body>
+  <body>
+    <!-- Logo -->
+    <img src="image/logo.png" alt="Logo" class="logo" />
+
+    <!-- Buttons -->
+    <section class="buttons">
+      <button class="button">
+        <img
+          src="image/blue_t_shirt.png"
+          alt="t_shirt"
+          class="imageButton"
+          data-key="type"
+          data-value="t_shirt"
+        />
+      </button>
+      <button class="button">
+        <img
+          src="image/blue_pants.png"
+          alt="pants"
+          class="imageButton"
+          data-key="type"
+          data-value="pants"
+        />
+      </button>
+      <button class="button">
+        <img
+          src="image/blue_skirt.png"
+          alt="skirt"
+          class="imageButton"
+          data-key="type"
+          data-value="skirt"
+        />
+      </button>
+      <button
+        class="button colorButton blue"
+        data-key="color"
+        data-value="blue"
+      >
+        Blue
+      </button>
+      <button
+        class="button colorButton yellow"
+        data-key="color"
+        data-value="yellow"
+      >
+        Yellow
+      </button>
+      <button
+        class="button colorButton pink"
+        data-key="color"
+        data-value="pink"
+      >
+        Pink
+      </button>
+    </section>
+
+    <!-- Items -->
+    <ul class="items">
+      <li class="item">
+        <img
+          src="image/blue_t_shirt.png"
+          alt="t_shirt"
+          class="item__thumbnail"
+        />
+        <span class="item__description">male, large</span>
+      </li>
+    </ul>
+  </body>
 </html>

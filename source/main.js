@@ -5,26 +5,40 @@
 */
 
 // Global fetch() method
-function loadItems() {
-  return fetch('data/data.json')
-    .then((response) => response.json())
-    .then((json) => json.items);
+async function getItems() {
+  const response = await fetch('data/data.json');
+  const json = await response.json();
+
+  return json.items;
 }
 
-function displayItems(items) {
-  const containerItems = document.querySelector('.items');
-  containerItems.innerHTML = items
-    .map((item) => createHTMLString(item))
-    .join('');
+function createElement(item) {
+  const img = document.createElement('img');
+  img.setAttribute('class', 'thumbnail');
+  img.setAttribute('src', item.image);
+
+  const span = document.createElement('span');
+  span.setAttribute('class', 'description');
+  span.innerText = `${item.gender}, ${item.size} size`;
+
+  const li = document.createElement('li');
+  li.setAttribute('class', 'item');
+  li.setAttribute('data-type', item.type);
+  li.setAttribute('data-color', item.color);
+  li.append(img);
+  li.append(span);
+
+  return li;
 }
 
-function createHTMLString(item) {
-  return `
-    <li class="item">
-      <img src="${item.image}" alt="${item.type}" class="item__thumbnail" />
-      <span class="item__description">${item.gender}, ${item.size}</span>
-    </li>
-  `;
+function filterItems(items, key, value) {
+  items.forEach((item) => {
+    if (item.dataset[key] === value) {
+      item.classList.remove('invisible');
+    } else {
+      item.classList.add('invisible');
+    }
+  });
 }
 
 function onButtonClick(event, items) {
@@ -36,19 +50,35 @@ function onButtonClick(event, items) {
     return;
   }
 
-  displayItems(items.filter((item) => item[key] === value));
+  filterItems(items, key, value);
 }
 
 function setEventListeners(items) {
   const logo = document.querySelector('.logo');
+  logo.addEventListener('click', () => loadPage());
+
   const buttons = document.querySelector('.buttons');
-  logo.addEventListener('click', () => displayItems(items));
   buttons.addEventListener('click', (event) => onButtonClick(event, items));
 }
 
-loadItems()
-  .then((items) => {
-    displayItems(items);
-    setEventListeners(items);
-  })
-  .catch(console.log);
+function createPage(items) {
+  const elements = items.map(createElement);
+
+  const itemsContainer = document.querySelector('.items');
+  itemsContainer.append(...elements);
+
+  const buttons = document.querySelector('.buttons');
+  buttons.addEventListener('click', (event) => onButtonClick(event, elements));
+}
+
+function loadPage() {
+  const itemsContainer = document.querySelector('.items');
+  itemsContainer.textContent = '';
+
+  getItems().then((items) => {
+    createPage(items);
+  });
+}
+
+loadPage();
+setEventListeners();

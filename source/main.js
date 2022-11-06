@@ -27,9 +27,28 @@ function createHTMLString(item) {
   `;
 }
 
+function onButtonClick(event, items) {
+  const eventData = event.target.dataset;
+  const key = eventData.key;
+  const value = eventData.value;
+
+  if (key == null || value == null) {
+    return;
+  }
+
+  displayItems(items.filter((item) => item[key] === value));
+}
+
+function setEventListeners(items) {
+  const logo = document.querySelector('.logo');
+  const buttons = document.querySelector('.buttons');
+  logo.addEventListener('click', () => displayItems(items));
+  buttons.addEventListener('click', (event) => onButtonClick(event, items));
+}
+
 loadItems()
   .then((items) => {
     displayItems(items);
-    // setEventListeners(items);
+    setEventListeners(items);
   })
   .catch(console.log);
